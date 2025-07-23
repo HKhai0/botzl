@@ -226,16 +226,6 @@ class Client(ZaloAPI):
                     last_message_time = temp_thread_storage[author_id]
                     if now - last_message_time < 7200:
                         return
-                msg = f"remove this"
-                styles = MultiMsgStyle([
-            MessageStyle(offset=0, length=2, style="color", color="#a24ffb", auto_format=False),
-            MessageStyle(offset=2, length=len(msg) - 2, style="color", color="#ffaf00", auto_format=False),
-            MessageStyle(offset=0, length=40, style="color", color="#a24ffb", auto_format=False),
-            MessageStyle(offset=45, length=len(msg) - 2, style="color", color="#ffaf00", auto_format=False),
-            MessageStyle(offset=0, length=len(msg), style="font", size="3", auto_format=False),
-            MessageStyle(offset=0, length=len(msg), style="bold", auto_format=False),
-            MessageStyle(offset=0, length=len(msg), style="italic", auto_format=False)
-        ])
                 self.replyMessage(Message(text=msg, style=styles),message_object, thread_id, thread_type)
                 temp_thread_storage[author_id] = now
 
