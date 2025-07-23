@@ -226,7 +226,7 @@ class Client(ZaloAPI):
                     last_message_time = temp_thread_storage[author_id]
                     if now - last_message_time < 7200:
                         return
-                msg = f"crkd"
+                msg = f"remove this"
                 styles = MultiMsgStyle([
             MessageStyle(offset=0, length=2, style="color", color="#a24ffb", auto_format=False),
             MessageStyle(offset=2, length=len(msg) - 2, style="color", color="#ffaf00", auto_format=False),
