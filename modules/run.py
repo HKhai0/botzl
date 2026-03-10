@@ -25,9 +25,8 @@ def prf():
 
 def handle_run_command(message, message_object, thread_id, thread_type, author_id, client):
     if not is_admin(author_id):
-        response_message = "• Bạn không đủ quyền hạn để sử dụng lệnh này."
-        message_to_send = Message(text=response_message)
-        client.replyMessage(message_to_send, message_object, thread_id, thread_type)
+        noquyen = "This is Admin Only"
+        client.sendReaction(messageObject=message_object, reactionIcon=noquyen, thread_id=thread_id, thread_type=thread_type)
         return
         
     command = message[len(f"{prf()}run "):]

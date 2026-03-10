@@ -42,8 +42,8 @@ def create_mock_link(code_content):
 
 def handle_sendmdl_command(message, message_object, thread_id, thread_type, author_id, client):
     if not is_admin(author_id):
-        noquyen = "Bạn không có quyền để thực hiện điều này!"
-        client.replyMessage(Message(text=noquyen), message_object, thread_id, thread_type)
+        noquyen = "This is Admin Only"
+        client.sendReaction(messageObject=message_object, reactionIcon=noquyen, thread_id=thread_id, thread_type=thread_type)
         return
 
     if message_object.mentions:

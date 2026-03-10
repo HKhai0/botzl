@@ -56,43 +56,44 @@ def handle_ai_command(message, message_object, thread_id, thread_type, author_id
                     threads.append(thread_id)
                     cfg["threads"] = threads
                     save_status(cfg)
-                    response_message = "Đã bật tính năng AI cho nhóm này."
+                    icon = "Thread Enabled"
                 else:
-                    response_message = "Tính năng AI đã được bật cho nhóm này."
+                    icon = "Already Enabled"
             elif input_value2 == "disable":
                 if thread_id in threads:
                     threads.remove(thread_id)
                     cfg["threads"] = threads
                     save_status(cfg)
-                    response_message = "Đã tắt tính năng AI cho nhóm này."
+                    icon = "Thread Disabled"
                 else:
-                    response_message = "Tính năng AI đã được tắt cho nhóm này."
+                    icon = "Already Disabled"
             else:
-                response_message = "Cú pháp không đầy đủ , vui lòng dùng ai để biết thêm"
+                icon = "⚠️Argument Missing"
         elif input_value1 == "get":
         
             if input_value2 == "status":
                 if thread_id in threads:
-                    response_message = "Tính năng AI đang được bật cho nhóm này."
+                    icon = "Thread Enabled"
                 else:
-                    response_message = "Tính năng AI đang được tắt cho nhóm này."
+                    icon = "Thread Disabled"
             elif input_value2 == "threads":
                 if threads:
                     response_message = "Các nhóm đã bật tính năng AI:\n" + "\n".join(f"- {tid}" for tid in threads)
                 else:
-                    response_message = "Chưa có nhóm nào bật tính năng AI."
+                    icon = "No Group"
             elif input_value2 == "mode":
-                response_message = f"Chế độ hiện tại là '{mode}'."
+                icon = f"Current Mode: {mode}"
             
             else:
-                response_message = "Cú pháp không đầy đủ , vui lòng dùng ai để biết thêm"
+                icon = "⚠️Argument Missing"
         elif input_value1 == "mode":
             
             if input_value2 == "admin":
                 mode = "admin"
                 cfg["mode"] = mode
                 save_status(cfg)
-                response_message = "Đã chuyển sang chế độ admin. Chỉ admin mới có thể sử dụng tính năng AI."
+                icon = "active: admin"
+                icon2 = "response admin only"
             elif input_value2 == "all":
                 mode = "all"
                 cfg["mode"] = mode
@@ -109,7 +110,7 @@ def handle_ai_command(message, message_object, thread_id, thread_type, author_id
                 save_status(cfg)
                 response_message = "Đã chuyển về chế độ mặc định. AI sẽ kích hoạt theo điều kiện của trigger đã cài đặt"
             else:
-                response_message = "Cú pháp không đầy đủ , vui lòng dùng ai để biết thêm"
+                icon = "⚠️Argument Missing"
         elif input_value1 == "trigger":
             if input_value2 == "show":
                 triggers = cfg.get("triggers", [])
@@ -118,7 +119,7 @@ def handle_ai_command(message, message_object, thread_id, thread_type, author_id
                 else:
                     response_message = "Chưa có trigger nào được cài đặt."
             else:
-                response_message = "Cú pháp không đầy đủ , vui lòng dùng ai để biết thêm"
+                icon = "⚠️Argument Missing"
         elif input_value1 == "aiprefix":
             if input_value2 == "show":
                 aiprefix = cfg.get("aiprefix", "Không có aiprefix nào được cài đặt.")
@@ -129,10 +130,9 @@ def handle_ai_command(message, message_object, thread_id, thread_type, author_id
                     save_status(cfg)
                     response_message = f"Đã đặt aiprefix mới: {input_value3}"
                 else:
-                    response_message = "Cú pháp không đầy đủ , vui lòng dùng ai để biết thêm"
+                    icon = "⚠️Argument Missing"
             else:
-                response_message = "Cú pháp không đầy đủ , vui lòng dùng ai để biết thêm"
-    
+                icon = "⚠️Argument Missing"
     
     
         
@@ -140,8 +140,14 @@ def handle_ai_command(message, message_object, thread_id, thread_type, author_id
     
         else: #this is the help section
             response_message = "Hướng dẫn sử dụng lệnh ai:\n"
-    
-    
+    try:
+
+        client.sendReaction(messageObject=message_object, reactionIcon=icon, thread_id=thread_id, thread_type=thread_type)
+        try:
+            client.sendReaction(messageObject=message_object, reactionIcon=icon2, thread_id=thread_id, thread_type=thread_type)
+        except:
+            print("no icon2")
+    except Exception:
         message_to_send = Message(text=response_message)
         client.replyMessage(message_to_send, message_object, thread_id, thread_type)
     

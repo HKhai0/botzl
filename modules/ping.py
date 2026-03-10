@@ -11,14 +11,14 @@ des = {
 }
 def handel_ping_command(message, message_object, thread_id, thread_type, author_id, client):
         start_time = time.time()
-        reply_message = Message("...")
-        client.replyMessage(reply_message,message_object, thread_id, thread_type,ttl=20000)
+        pingmark = "Ping: "
+        client.sendReaction(messageObject=message_object, reactionIcon=pingmark, thread_id=thread_id, thread_type=thread_type)
 
         end_time = time.time()
         ping_time = end_time - start_time
 
-        text = f"Bot response time: {ping_time:.2f}ms"
-        client.send(thread_id=thread_id, thread_type=thread_type, ttl=20000, message=Message(text))
+        ping = f"{1000 * ping_time:.4f}ms"
+        client.sendReaction(messageObject=message_object, reactionIcon=ping, thread_id=thread_id, thread_type=thread_type)
 
 def get_mitaizl():
     return {

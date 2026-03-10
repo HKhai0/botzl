@@ -4,7 +4,7 @@ import sys, os
 
 des = {
     'version': "1.0.0",
-    'credits': "t",
+    'credits': "Lê Hữu Khải (Python Is Trash)",
     'description': "Kill process của bot"
 }
 
@@ -17,8 +17,12 @@ def handle_killproc_command(message, message_object, thread_id, thread_type, aut
         client.replyMessage(Message(text=noquyen), message_object, thread_id, thread_type)
         return
     else:
-        message_to_send = Message(text="Killing bot process , You need to access the terminal to turn on bot again")
-        client.replyMessage(message_to_send, message_object, thread_id, thread_type)
+        icon = "Killing : "
+        client.sendReaction(messageObject=message_object, reactionIcon=icon, thread_id=thread_id, thread_type=thread_type)
+        icon = "Access The Terminal"
+        client.sendReaction(messageObject=message_object, reactionIcon=icon, thread_id=thread_id, thread_type=thread_type)
+        icon = "To Start Bot"
+        client.sendReaction(messageObject=message_object, reactionIcon=icon, thread_id=thread_id, thread_type=thread_type)
     try:
         os.kill(os.getpid(), 9)
     except Exception as e:
@@ -26,5 +30,5 @@ def handle_killproc_command(message, message_object, thread_id, thread_type, aut
         client.sendMessage(error_message, thread_id, thread_type)
 def get_mitaizl():
     return {
-        'killproc': handle_killproc_command
+        'stopp': handle_killproc_command
     }
